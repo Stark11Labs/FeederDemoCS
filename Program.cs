@@ -233,30 +233,34 @@ namespace FeederDemoCS
         // the purpose of the XY resets is so the counter does not go infinitely in one direction or the other
         // gradually slowing down the speed at which the pointer travels due to scaling.
         //up down left right
-        if (Keyboard.IsKeyDown(Key.Right))
+        if (Keyboard.IsKeyDown(Key.Z)) // Right
         {
             X = 32767; //if (X > 200) X = 100;
             Y = 16383;
             
-           
         }
-        else if ((Keyboard.IsKeyDown(Key.Left)))
+        else if ((Keyboard.IsKeyDown(Key.X))) // Left
         {
             X = 0; // if (X < 0) X = 100;
             Y = 16383;
             
         }
-        else if ((Keyboard.IsKeyDown(Key.Up)))
+        else if ((Keyboard.IsKeyDown(Key.C))) // Up
         {
             Y = 0; // if (Y < 0) Y = 100;
             X = 16383;
         }
-        else if ((Keyboard.IsKeyDown(Key.Down)))
+        else if ((Keyboard.IsKeyDown(Key.V))) // Down
         {
             Y = 32767;// if (Y > 200) Y = 100;
             X = 16383;
         }
-        
+        else if (!Keyboard.IsKeyDown(Key.Down) || !Keyboard.IsKeyDown(Key.Up)
+            || !Keyboard.IsKeyDown(Key.Left) || !Keyboard.IsKeyDown(Key.Right))
+        {
+            X = 16383;
+            Y = 16383;
+        }
         //diagonal movement
         //else if ((Keyboard.IsKeyDown(Key.Up)) && (Keyboard.IsKeyDown(Key.Right)))
         //{
@@ -278,77 +282,77 @@ namespace FeederDemoCS
         //    Y = 200;
         //    X = 0;
         //}
-        else if ((Keyboard.IsKeyDown(Key.D1)))
-        {
-            while((Keyboard.IsKeyDown(Key.D1)))
-            {
-              joystick.SetBtn(true, id, 1);
-            
-            }
-            joystick.SetBtn(false, id, 1);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D2)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D2)))
-            {
-                joystick.SetBtn(true, id, 2);
-            }
-            joystick.SetBtn(false, id, 2);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D3)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D3)))
-            {
-                joystick.SetBtn(true, id, 3);
-                
-            }
-            joystick.SetBtn(false, id, 3);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D4)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D4)))
-            {
-                joystick.SetBtn(true, id, 4);
-                
-            }
-            joystick.SetBtn(false, id, 4);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D5)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D5)))
-            {
-                joystick.SetBtn(true, id, 5);
-                
-            }
-            joystick.SetBtn(false, id, 5);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D6)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D6)))
-            {
-                joystick.SetBtn(true, id, 6);
-                
-            }
-            joystick.SetBtn(false, id, 6);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D7)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D7)))
-            {
-                joystick.SetBtn(true, id, 7);
-               
-            }
-            joystick.SetBtn(false, id, 7);
-        }
-        else if ((Keyboard.IsKeyDown(Key.D8)))
-        {
-            while ((Keyboard.IsKeyDown(Key.D8)))
-            {
-                joystick.SetBtn(true, id, 8);
-                
-            }
-            joystick.SetBtn(false, id, 8);
-        }
+        //else if ((Keyboard.IsKeyDown(Key.D1)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D1)))
+        //    {
+        //        joystick.SetBtn(true, id, 1);
+
+        //    }
+        //    joystick.SetBtn(false, id, 1);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D2)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D2)))
+        //    {
+        //        joystick.SetBtn(true, id, 2);
+        //    }
+        //    joystick.SetBtn(false, id, 2);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D3)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D3)))
+        //    {
+        //        joystick.SetBtn(true, id, 3);
+
+        //    }
+        //    joystick.SetBtn(false, id, 3);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D4)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D4)))
+        //    {
+        //        joystick.SetBtn(true, id, 4);
+
+        //    }
+        //    joystick.SetBtn(false, id, 4);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D5)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D5)))
+        //    {
+        //        joystick.SetBtn(true, id, 5);
+
+        //    }
+        //    joystick.SetBtn(false, id, 5);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D6)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D6)))
+        //    {
+        //        joystick.SetBtn(true, id, 6);
+
+        //    }
+        //    joystick.SetBtn(false, id, 6);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D7)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D7)))
+        //    {
+        //        joystick.SetBtn(true, id, 7);
+
+        //    }
+        //    joystick.SetBtn(false, id, 7);
+        //}
+        //else if ((Keyboard.IsKeyDown(Key.D8)))
+        //{
+        //    while ((Keyboard.IsKeyDown(Key.D8)))
+        //    {
+        //        joystick.SetBtn(true, id, 8);
+
+        //    }
+        //    joystick.SetBtn(false, id, 8);
+        //}
         
         
 
