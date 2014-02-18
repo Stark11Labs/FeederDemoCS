@@ -1,0 +1,1 @@
+Doubleclick the feedercode.csproj or .sln and start the debug. Press any key then the program will start.
