@@ -18,8 +18,7 @@
 //	Here starts and endless loop that feedes data into the virtual device
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ROBUST
-//#define EFFICIENT
+
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,9 @@ using System.Text;
 using System.Windows.Input;
 
 
-// Don't forget to add this
+
+
+// Don't forget to add thisS
 using vJoyInterfaceWrap;
 
 namespace FeederDemoCS
@@ -38,24 +39,25 @@ namespace FeederDemoCS
         static public vJoy joystick;
         static public vJoy.JoystickState iReport;
         static public uint id = 1;
-        static public char input;
+       // static public char input;
 
-     
+
 
         [STAThread]
         static void Main(string[] args)
         {
+
             // Create one joystick object and a position structure.
             joystick = new vJoy();
             iReport = new vJoy.JoystickState();
 
-            
+
             // Device ID can only be in the range 1-16
-            if (args.Length>0 && !String.IsNullOrEmpty(args[0]))
+            if (args.Length > 0 && !String.IsNullOrEmpty(args[0]))
                 id = Convert.ToUInt32(args[0]);
             if (id <= 0 || id > 16)
             {
-                Console.WriteLine("Illegal device ID {0}\nExit!",id); 
+                Console.WriteLine("Illegal device ID {0}\nExit!", id);
                 return;
             }
 
@@ -116,7 +118,7 @@ namespace FeederDemoCS
             if ((status == VjdStat.VJD_STAT_OWN) || ((status == VjdStat.VJD_STAT_FREE) && (!joystick.AcquireVJD(id))))
             {
                 Console.WriteLine("Failed to acquire vJoy device number {0}.\n", id);
-                return ;
+                return;
             }
             else
                 Console.WriteLine("Acquired: vJoy device number {0}.\n", id);
@@ -125,7 +127,7 @@ namespace FeederDemoCS
             Console.ReadKey(true);
 
             int X, Y, Z, ZR, XR;
-            uint count = 0;
+           // uint count = 0;
             long maxval = 0;
 
             X = 16383;
@@ -135,301 +137,137 @@ namespace FeederDemoCS
             ZR = 80;
 
             joystick.GetVJDAxisMax(id, HID_USAGES.HID_USAGE_X, ref maxval);
+            // GattUtils.get
 
-#if ROBUST
-    bool res;
-	// Reset this device to default values
-	joystick.ResetVJD(id);
+            //bool res;
+            // Reset this device to default values
+            joystick.ResetVJD(id);
 
-	// Feed the device in endless loop
-    while (true)
-    {
-        // Set position of 4 axes
-        joystick.SetAxis(X, id, HID_USAGES.HID_USAGE_X);
-        joystick.SetAxis(Y, id, HID_USAGES.HID_USAGE_Y);
-        joystick.SetAxis(Z, id, HID_USAGES.HID_USAGE_Z);
-        joystick.SetAxis(XR, id, HID_USAGES.HID_USAGE_RX);
-        joystick.SetAxis(ZR, id, HID_USAGES.HID_USAGE_RZ);
-
-        // Press/Release Buttons
-       // res = joystick.SetBtn(true, id, count / 50);
-       // res = joystick.SetBtn(false, id, 1 + count / 50);
-
-        //// If Continuous POV hat switches installed - make them go round
-        //// For high values - put the switches in neutral state
-        //if (ContPovNumber>0)
-        //{
-        //    if ((count * 70) < 30000)
-        //    {
-        //        res = joystick.SetContPov(((int)count * 70), id, 1);
-        //        res = joystick.SetContPov(((int)count * 70) + 2000, id, 2);
-        //        res = joystick.SetContPov(((int)count * 70) + 4000, id, 3);
-        //        res = joystick.SetContPov(((int)count * 70) + 6000, id, 4);
-        //    }
-        //    else
-        //    {
-        //        res = joystick.SetContPov(-1, id, 1);
-        //        res = joystick.SetContPov(-1, id, 2);
-        //        res = joystick.SetContPov(-1, id, 3);
-        //        res = joystick.SetContPov(-1, id, 4);
-        //    };
-        //};
-
-        //// If Discrete POV hat switches installed - make them go round
-        //// From time to time - put the switches in neutral state
-        //if (DiscPovNumber>0)
-        //{
-        //    if (count < 550)
-        //    {
-        //        joystick.SetDiscPov((((int)count / 20) + 0) % 4, id, 1);
-        //        joystick.SetDiscPov((((int)count / 20) + 1) % 4, id, 2);
-        //        joystick.SetDiscPov((((int)count / 20) + 2) % 4, id, 3);
-        //        joystick.SetDiscPov((((int)count / 20) + 3) % 4, id, 4);
-        //    }
-        //    else
-        //    {
-        //        joystick.SetDiscPov(-1, id, 1);
-        //        joystick.SetDiscPov(-1, id, 2);
-        //        joystick.SetDiscPov(-1, id, 3);
-        //        joystick.SetDiscPov(-1, id, 4);
-        //    };
-        //};
-
-        //System.Threading.Thread.Sleep(20);
-        //X += 150; if (X > maxval) X = 0;
-        //Y += 250; if (Y > maxval) Y = 0;
-        //Z += 350; if (Z > maxval) Z = 0;
-        //XR += 220; if (XR > maxval) XR = 0;
-        //ZR += 200; if (ZR > maxval) ZR = 0;
-        //count++;
-
-        //if (count > 640)
-        //    count = 0;
-
-        //input = (char) Console.Read(); // get a char
-        //Console.WriteLine("Your key is: " + input);
-
-        //bool check = true;
-        //switch (check)
-        //{
-        //    case Keyboard.IsKeyDown(System.Windows.Input.Key.Right):
-        //        X += 50;
-        //        break;
-        //    case Keyboard.IsKeyDown(System.Windows.Input.Key.Left):
-        //        X -= 50;
-        //        break;
-        //    case Keyboard.IsKeyDown(System.Windows.Input.Key.Up):
-        //        Y -= 50;
-        //        break;
-        //    case Keyboard.IsKeyDown(System.Windows.Input.Key.Down):
-        //        Y += 50;
-        //        break;
-        //    default:
-        //        X = 0;
-        //        Y = 0;
-        //        break;
-        //};
-
-        // the purpose of the XY resets is so the counter does not go infinitely in one direction or the other
-        // gradually slowing down the speed at which the pointer travels due to scaling.
-        //up down left right
-        if (Keyboard.IsKeyDown(Key.Z)) // Right
-        {
-            X = 32767; //if (X > 200) X = 100;
-            Y = 16383;
-            
-        }
-        else if ((Keyboard.IsKeyDown(Key.X))) // Left
-        {
-            X = 0; // if (X < 0) X = 100;
-            Y = 16383;
-            
-        }
-        else if ((Keyboard.IsKeyDown(Key.C))) // Up
-        {
-            Y = 0; // if (Y < 0) Y = 100;
-            X = 16383;
-        }
-        else if ((Keyboard.IsKeyDown(Key.V))) // Down
-        {
-            Y = 32767;// if (Y > 200) Y = 100;
-            X = 16383;
-        }
-        else if (!Keyboard.IsKeyDown(Key.Down) || !Keyboard.IsKeyDown(Key.Up)
-            || !Keyboard.IsKeyDown(Key.Left) || !Keyboard.IsKeyDown(Key.Right))
-        {
-            X = 16383;
-            Y = 16383;
-        }
-        //diagonal movement
-        //else if ((Keyboard.IsKeyDown(Key.Up)) && (Keyboard.IsKeyDown(Key.Right)))
-        //{
-        //    Y = 0;
-        //    X = 200;
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.Up)) && (Keyboard.IsKeyDown(Key.Left)))
-        //{
-        //    Y = 0;
-        //    X = 0;
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.Down)) && (Keyboard.IsKeyDown(Key.Right)))
-        //{
-        //    Y = 200;
-        //    X = 200;
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.Down)) && (Keyboard.IsKeyDown(Key.Left)))
-        //{
-        //    Y = 200;
-        //    X = 0;
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D1)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D1)))
-        //    {
-        //        joystick.SetBtn(true, id, 1);
-
-        //    }
-        //    joystick.SetBtn(false, id, 1);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D2)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D2)))
-        //    {
-        //        joystick.SetBtn(true, id, 2);
-        //    }
-        //    joystick.SetBtn(false, id, 2);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D3)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D3)))
-        //    {
-        //        joystick.SetBtn(true, id, 3);
-
-        //    }
-        //    joystick.SetBtn(false, id, 3);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D4)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D4)))
-        //    {
-        //        joystick.SetBtn(true, id, 4);
-
-        //    }
-        //    joystick.SetBtn(false, id, 4);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D5)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D5)))
-        //    {
-        //        joystick.SetBtn(true, id, 5);
-
-        //    }
-        //    joystick.SetBtn(false, id, 5);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D6)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D6)))
-        //    {
-        //        joystick.SetBtn(true, id, 6);
-
-        //    }
-        //    joystick.SetBtn(false, id, 6);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D7)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D7)))
-        //    {
-        //        joystick.SetBtn(true, id, 7);
-
-        //    }
-        //    joystick.SetBtn(false, id, 7);
-        //}
-        //else if ((Keyboard.IsKeyDown(Key.D8)))
-        //{
-        //    while ((Keyboard.IsKeyDown(Key.D8)))
-        //    {
-        //        joystick.SetBtn(true, id, 8);
-
-        //    }
-        //    joystick.SetBtn(false, id, 8);
-        //}
-        
-        
-
-
-    } // While (Robust)
-
-#endif // ROBUST
-#if EFFICIENT
-
-            byte[] pov = new byte[4];
-
-      while (true)
+            // Feed the device in endless loop
+            while (true)
             {
-            iReport.bDevice = (byte)id;
-            iReport.AxisX = X;
-            iReport.AxisY = Y;
-            iReport.AxisZ = Z;
-            iReport.AxisZRot = ZR;
-            iReport.AxisXRot = XR;
+                // Set position of 4 axes
+                joystick.SetAxis(X, id, HID_USAGES.HID_USAGE_X);
+                joystick.SetAxis(Y, id, HID_USAGES.HID_USAGE_Y);
+                joystick.SetAxis(Z, id, HID_USAGES.HID_USAGE_Z);
+                joystick.SetAxis(XR, id, HID_USAGES.HID_USAGE_RX);
+                joystick.SetAxis(ZR, id, HID_USAGES.HID_USAGE_RZ);
 
-            // Set buttons one by one
-            iReport.Buttons = (uint)(0x1 <<  (int)(count / 20));
+                // the purpose of the XY resets is so the counter does not go infinitely in one direction or the other
+                // gradually slowing down the speed at which the pointer travels due to scaling.
+                //up down left right
+                if (Keyboard.IsKeyDown(Key.F)) // Right
+                {
+                    X = 32767; //if (X > 200) X = 100;
+                    Y = 16383;
 
-		if (ContPovNumber>0)
-		{
-			// Make Continuous POV Hat spin
-			iReport.bHats		= (count*70);
-			iReport.bHatsEx1	= (count*70)+3000;
-			iReport.bHatsEx2	= (count*70)+5000;
-			iReport.bHatsEx3	= 15000 - (count*70);
-			if ((count*70) > 36000)
-			{
-				iReport.bHats =    0xFFFFFFFF; // Neutral state
-                iReport.bHatsEx1 = 0xFFFFFFFF; // Neutral state
-                iReport.bHatsEx2 = 0xFFFFFFFF; // Neutral state
-                iReport.bHatsEx3 = 0xFFFFFFFF; // Neutral state
-			};
-		}
-		else
-		{
-			// Make 5-position POV Hat spin
-			
-			pov[0] = (byte)(((count / 20) + 0)%4);
-            pov[1] = (byte)(((count / 20) + 1) % 4);
-            pov[2] = (byte)(((count / 20) + 2) % 4);
-            pov[3] = (byte)(((count / 20) + 3) % 4);
+                }
+                else if ((Keyboard.IsKeyDown(Key.A))) // Left
+                {
+                    X = 0; // if (X < 0) X = 100;
+                    Y = 16383;
+                }
+                else if ((Keyboard.IsKeyDown(Key.D))) // Up
+                {
+                    Y = 0; // if (Y < 0) Y = 100;
+                    X = 16383;
+                }
+                else if ((Keyboard.IsKeyDown(Key.S))) // Down
+                {
+                    Y = 32767;// if (Y > 200) Y = 100;
+                    X = 16383;
+                }
+                else if ((Keyboard.IsKeyDown(Key.D1)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D1)))
+                    {
+                        joystick.SetBtn(true, id, 1);
 
-			iReport.bHats		= (uint)(pov[3]<<12) | (uint)(pov[2]<<8) | (uint)(pov[1]<<4) | (uint)pov[0];
-			if ((count) > 550)
-				iReport.bHats = 0xFFFFFFFF; // Neutral state
-		};
+                    }
+                    joystick.SetBtn(false, id, 1);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D2)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D2)))
+                    {
+                        joystick.SetBtn(true, id, 2);
 
-        /*** Feed the driver with the position packet - is fails then wait for input then try to re-acquire device ***/
-        if (!joystick.UpdateVJD(id, ref iReport))
-        {
-            Console.WriteLine("Feeding vJoy device number {0} failed - try to enable device then press enter\n", id);
-            Console.ReadKey(true);
-            joystick.AcquireVJD(id);
+                    }
+                    joystick.SetBtn(false, id, 2);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D3)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D3)))
+                    {
+                        joystick.SetBtn(true, id, 3);
+
+                    }
+                    joystick.SetBtn(false, id, 3);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D4)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D4)))
+                    {
+                        joystick.SetBtn(true, id, 4);
+
+                    }
+                    joystick.SetBtn(false, id, 4);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D5)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D5)))
+                    {
+                        joystick.SetBtn(true, id, 5);
+
+                    }
+                    joystick.SetBtn(false, id, 5);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D6)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D6)))
+                    {
+                        joystick.SetBtn(true, id, 6);
+
+                    }
+                    joystick.SetBtn(false, id, 6);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D7)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D7)))
+                    {
+                        joystick.SetBtn(true, id, 7);
+
+                    }
+                    joystick.SetBtn(false, id, 7);
+                }
+                else if ((Keyboard.IsKeyDown(Key.D8)))
+                {
+                    while ((Keyboard.IsKeyDown(Key.D8)))
+                    {
+                        joystick.SetBtn(true, id, 8);
+
+                    }
+                    joystick.SetBtn(false, id, 8);
+                }
+                else if (!Keyboard.IsKeyDown(Key.Down) || !Keyboard.IsKeyDown(Key.Up)
+                    || !Keyboard.IsKeyDown(Key.Left) || !Keyboard.IsKeyDown(Key.Right))
+                {
+                    X = 16383;
+                    Y = 16383;
+                }
+
+
+
+
+            } // While (Robust)
+
+
+
         }
 
-        System.Threading.Thread.Sleep(20);
-        count++;
-        if (count > 640) count = 0;
-
-        X += 150; if (X > maxval) X = 0;
-        Y += 250; if (Y > maxval) Y = 0;
-        Z += 350; if (Z > maxval) Z = 0;
-        XR += 220; if (XR > maxval) XR = 0;
-        ZR += 200; if (ZR > maxval) ZR = 0;  
-         
-      }; // While
-
-#endif // EFFICIENT
+        
+       
 
         
-
-        
-        } // Main
     } // class Program
 } // namespace FeederDemoCS

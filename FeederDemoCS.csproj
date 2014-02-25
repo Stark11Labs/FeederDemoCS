@@ -60,6 +60,9 @@
       <HintPath>.\vJoyInterfaceWrap.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="X2CodingLab.SensorTag">
+      <HintPath>.\X2CodingLab.SensorTag.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
